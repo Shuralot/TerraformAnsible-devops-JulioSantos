@@ -1,0 +1,4 @@
+app_image: "docker/getting-started:latest"
+app_port_host: 3000
+app_port_container: 80
+app_container_name: "getting-started-app"

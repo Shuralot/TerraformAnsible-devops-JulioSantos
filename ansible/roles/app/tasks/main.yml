@@ -1,0 +1,17 @@
+- name: Pull the application Docker image
+  community.docker.docker_image:
+    name: "{{ app_image }}"
+    source: pull
+
+- name: Run the application container
+  community.docker.docker_container:
+    name: "{{ app_container_name }}"
+    image: "{{ app_image }}"
+    state: started
+    restart_policy: always
+    published_ports:
+      - "{{ app_port_host }}:{{ app_port_container }}"
+
+- name: Show that vault decryption works
+  debug:
+    msg: "Success! Decrypted simulated admin password from Vault: {{ vault_app_admin_password }}"

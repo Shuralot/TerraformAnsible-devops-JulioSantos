@@ -1,0 +1,9 @@
+- name: Provision and Configure Web Server
+  hosts: webservers
+  become: true
+  vars_files:
+    - group_vars/all/vars.yml
+    - group_vars/all/vault.yml
+  roles:
+    - docker
+    - app

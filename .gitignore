@@ -1,0 +1,28 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# SSH Keys
+*.pem
+
+# Ansible
+hosts.ini
+vault_pass.txt
+.ansible/
+*.retry
+
+# OS/IDE
+.idea/
+.vscode/
+.DS_Store
