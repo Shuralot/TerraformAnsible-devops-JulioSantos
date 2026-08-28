@@ -57,8 +57,8 @@ Para integrar as duas ferramentas sem usar o anti-padrão `remote-exec`, escolhi
 
 ## 3. Playbooks e Boas Práticas do Ansible
 
-- **Idempotência**: Não utilizei blocos `shell` ou `command` para subir o container. Usei os módulos nativos `community.docker.docker_image` e `community.docker.docker_container`. Dessa forma, se rodar o comando novamente, o Ansible sabe que o container já está ativo e não recria nada do zero.
-- **Variáveis Sensíveis (Ansible Vault)**: Criei o arquivo `ansible/group_vars/all/vault.yml` para simular uma variável de senha admin (`vault_app_admin_password`). Esse arquivo está criptografado usando o Ansible Vault. A senha para abrir está salva no arquivo `ansible/vault_pass.txt` (que está no `.gitignore` para nunca ser enviado ao GitHub).
+- **Idempotência e Construção Local**: Não utilizei blocos `shell` ou `command` para clonar o repositório, gerar o Dockerfile ou subir o container. O Ansible instala o `git`, clona o repositório oficial da aplicação (`https://github.com/docker/getting-started-app`), cria dinamicamente o `Dockerfile` com Node.js na pasta de destino, e constrói a imagem localmente na máquina usando o módulo `community.docker.docker_image`. O container é executado e gerenciado de forma idempotente pelo módulo `community.docker.docker_container`.
+- **Ansible Vault**: A variável sensível fictícia `vault_app_admin_password` foi definida no arquivo `ansible/group_vars/all/vault.yml` e está devidamente criptografada. O arquivo `ansible/vault_pass.txt` (adicionado ao `.gitignore`) fornece a senha de descriptografia automaticamente durante o provisionamento.
 
 ---
 

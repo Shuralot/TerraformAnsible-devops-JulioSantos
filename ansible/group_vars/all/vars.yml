@@ -1,4 +1,6 @@
-app_image: "docker/getting-started:latest"
+app_repo: "https://github.com/docker/getting-started-app.git"
+app_dest: "/home/ubuntu/getting-started-app"
+app_image: "getting-started-app"
 app_port_host: 3000
-app_port_container: 80
+app_port_container: 3000
 app_container_name: "getting-started-app"

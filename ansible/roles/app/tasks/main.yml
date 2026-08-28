@@ -1,12 +1,41 @@
-- name: Pull the application Docker image
+- name: Install git on the host
+  apt:
+    name: git
+    state: present
+    update_cache: yes
+
+- name: Clone the getting-started-app repository
+  git:
+    repo: "{{ app_repo }}"
+    dest: "{{ app_dest }}"
+    version: main
+    force: yes
+
+- name: Create Dockerfile inside cloned repository
+  copy:
+    dest: "{{ app_dest }}/Dockerfile"
+    content: |
+      FROM node:20-alpine
+      WORKDIR /app
+      COPY . .
+      RUN npm install --omit=dev
+      CMD ["node", "src/index.js"]
+      EXPOSE 3000
+    owner: ubuntu
+    group: ubuntu
+    mode: '0644'
+
+- name: Build the application Docker image from cloned source
   community.docker.docker_image:
     name: "{{ app_image }}"
-    source: pull
+    build:
+      path: "{{ app_dest }}"
+    source: build
 
 - name: Run the application container
   community.docker.docker_container:
     name: "{{ app_container_name }}"
-    image: "{{ app_image }}"
+    image: "{{ app_image }}:latest"
     state: started
     restart_policy: always
     published_ports:
